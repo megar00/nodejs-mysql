@@ -1,4 +1,3 @@
-const { request } = require('express');
 const express = require('express');
 const router = express.Router();
 
@@ -9,14 +8,20 @@ router.get('/add', (req, res) => {
 });
 
 router.post('/add', async (req, res) => {
-    const { title, url, description } = req.body;
-    const newLink = {
-        title,
-        url,
-        description
-    };
-    await pool.query('INSERT INTO links set ?', [newLink]);
-        res.send('recived');
+        const { title, url, description } = req.body;
+        const newLink = {
+            title,
+            url,
+            description
+        };
+        await pool.query( 'INSERT INTO links set ?', [newLink]);
+        res.send('received');
+    });
+
+router.get('/', async (req, res) => {
+    const links = await pool.query('SELECT * FROM links');
+    console.log(links);
+    res.send('listas iran aqui');
 });
 
 module.exports = router;
